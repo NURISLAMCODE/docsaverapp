@@ -31,7 +31,6 @@ class _AuthScreenState extends State<AuthScreen> {
       return Scaffold(
         body: ScreenBackgroundWidget(
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
             child: Form(
               key: _key,
               child: Padding(
@@ -128,6 +127,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     provider.isLoading
                         ? const CircularProgressIndicator()
                         : CustomButton(
+                            color: provider.isLogin
+                                ? Colors.blue
+                                : Colors.blue.shade800,
                             onPressed: () {
                               if (_key.currentState!.validate()) {
                                 print("Evreything fine");
