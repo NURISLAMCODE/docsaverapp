@@ -23,44 +23,47 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: ScreenBackgroundWidget(
         child: Form(
           key: _key,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "images/doc.png",
-                height: 150,
-              ),
-              const Text(
-                "Enter Email to Reset Password",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
-              SizedBoxHelpper.sizedBox20,
-              CustomTextField(
-                  controller: emailController,
-                  hintText: "Enter Email",
-                  labelText: "Enter Email",
-                  preFixIcon: Icons.email,
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return "Fill Your Email";
-                    }
-                    return null;
-                  }),
-              SizedBoxHelpper.sizedBox20,
-              Consumer<AuthProvider>(builder: (context, authProvider, child) {
-                return authProvider.forgotPassLoad
-                    ? const Center(child: CircularProgressIndicator())
-                    : CustomButton(
-                        onPressed: () {
-                          if (_key.currentState!.validate()) {
-                            authProvider.forgotPassword(
-                                context, emailController.text);
-                          }
-                        },
-                        title: "Forgot Password");
-              })
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "images/doc.png",
+                  height: 150,
+                ),
+                const Text(
+                  "Enter Email to Reset Password",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+                SizedBoxHelpper.sizedBox20,
+                CustomTextField(
+                    controller: emailController,
+                    hintText: "Enter Email",
+                    labelText: "Enter Email",
+                    preFixIcon: Icons.email,
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Fill Your Email";
+                      }
+                      return null;
+                    }),
+                SizedBoxHelpper.sizedBox20,
+                Consumer<AuthProvider>(builder: (context, authProvider, child) {
+                  return authProvider.forgotPassLoad
+                      ? const Center(child: CircularProgressIndicator())
+                      : CustomButton(
+                          color: Colors.blue,
+                          onPressed: () {
+                            if (_key.currentState!.validate()) {
+                              authProvider.forgotPassword(
+                                  context, emailController.text);
+                            }
+                          },
+                          title: "Forgot Password");
+                })
+              ],
+            ),
           ),
         ),
       ),
