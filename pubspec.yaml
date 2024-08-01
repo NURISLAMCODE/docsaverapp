@@ -38,6 +38,7 @@ dependencies:
   provider: ^6.1.2
   firebase_core: ^3.2.0
   firebase_auth:
+  file_picker: ^8.0.6
 
 dev_dependencies:
   flutter_test:

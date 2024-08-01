@@ -1,5 +1,6 @@
 import 'package:doc_saver_app/helper/sized_box_helpper.dart';
 import 'package:doc_saver_app/model/file_card.dart';
+import 'package:doc_saver_app/screen/add_document_screen.dart';
 import 'package:doc_saver_app/widget/custom_app_bar.dart';
 
 import 'package:doc_saver_app/widget/custom_text_field.dart';
@@ -19,7 +20,9 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: CustomfloatingActionButton(
         title: "Add Pdf",
         iconData: Icons.add,
-        onPress: () {},
+        onPress: () {
+          Navigator.pushNamed(context, AddDocumentScreen.routeName);
+        },
       ),
       appBar: const CustomAppBar(),
       // appBar: AppBar(
