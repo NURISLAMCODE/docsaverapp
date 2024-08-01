@@ -1,4 +1,6 @@
 import 'package:doc_saver_app/provider/auth_provider.dart';
+import 'package:doc_saver_app/provider/document_provider.dart';
+import 'package:doc_saver_app/screen/add_document_screen.dart';
 import 'package:doc_saver_app/screen/authentication_screen.dart';
 import 'package:doc_saver_app/screen/home_screen.dart';
 import 'package:doc_saver_app/screen/porgot_password_screen.dart';
@@ -22,8 +24,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DocumentProvider(),
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -40,6 +49,7 @@ class MyApp extends StatelessWidget {
           ForgotPasswordScreen.routeName: (contex) =>
               const ForgotPasswordScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(),
+          AddDocumentScreen.routeName: (context) => const AddDocumentScreen(),
         },
         home: const AuthScreen(),
       ),

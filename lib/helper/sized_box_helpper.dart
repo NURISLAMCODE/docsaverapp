@@ -5,6 +5,6 @@ class SizedBoxHelpper {
     height: 20,
   );
   static SizedBox sizedBox40 = const SizedBox(
-    height: 20,
+    height: 40,
   );
 }
