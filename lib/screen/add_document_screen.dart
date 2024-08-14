@@ -6,18 +6,27 @@ import 'package:doc_saver_app/widget/screen_background_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddDocumentScreen extends StatelessWidget {
+class AddDocumentScreen extends StatefulWidget {
   static String routeName = "/addDocumentScreen";
   const AddDocumentScreen({super.key});
 
   @override
+  State<AddDocumentScreen> createState() => _AddDocumentScreenState();
+}
+
+class _AddDocumentScreenState extends State<AddDocumentScreen> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController();
-    TextEditingController noteController = TextEditingController();
+  final _provider = Provider.of<DocumentProvider>(context, listen: false);
     return Scaffold(
       floatingActionButton: CustomfloatingActionButton(
         iconData: Icons.fork_right,
-        onPress: () {},
+        onPress: () {
+          _provider.sendDocumentData(title: titleController.text, note: noteController.text,context: context);
+       print("dfjlkdf");
+        },
         title: "Upload",
       ),
       appBar: AppBar(
@@ -37,8 +46,8 @@ class AddDocumentScreen extends StatelessWidget {
         ),
       ),
       body: ScreenBackgroundWidget(
-        child: Consumer<DocumentProvider>(builder: (context, provider, child) {
-          return Column(
+        child:
+           Column(
             children: [
               CustomTextField(
                 controller: titleController,
@@ -56,7 +65,7 @@ class AddDocumentScreen extends StatelessWidget {
               SizedBoxHelpper.sizedBox20,
               CustomTextField(
                 controller: noteController,
-                hintText: "title",
+                hintText: "note",
                 preFixIcon: Icons.note,
                 labelText: "Please Enter The Note",
                 obsucure: false,
@@ -70,7 +79,7 @@ class AddDocumentScreen extends StatelessWidget {
               SizedBoxHelpper.sizedBox20,
               InkWell(
                 onTap: () {
-                  provider.getFile();
+                  _provider.getFile(context);
                 },
                 child: Container(
                   height: 150,
@@ -82,7 +91,11 @@ class AddDocumentScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBoxHelpper.sizedBox40,
-                      const Text("FileName"),
+                       Consumer<DocumentProvider>(
+                         builder: (context, provider,child) {
+                           return Text(provider.selectedFile);
+                         }
+                       ),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -102,8 +115,8 @@ class AddDocumentScreen extends StatelessWidget {
                 ),
               )
             ],
-          );
-        }),
+          ),
+
       ),
     );
   }
