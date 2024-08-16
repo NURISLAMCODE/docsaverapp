@@ -6,6 +6,8 @@ import 'package:doc_saver_app/widget/screen_background_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'home_screen.dart';
+
 class AddDocumentScreen extends StatefulWidget {
   static String routeName = "/addDocumentScreen";
   const AddDocumentScreen({super.key});
@@ -26,8 +28,8 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             iconData: Icons.fork_right,
             onPress: () {
               _provider.sendDocumentData(
-
                   context: context);
+              Navigator.pushNamed(context, HomeScreen.routeName);
            print("dfjlkdf");
             },
             title: "Upload",

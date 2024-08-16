@@ -51,7 +51,7 @@ class FileCardWidget extends StatelessWidget {
                     Text(
                       "${model.dateAdded}",
                       style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 12,
                           fontWeight: FontWeight.w200,
                           color: Colors.black54),
                     ),
