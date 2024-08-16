@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 class DocumentProvider extends ChangeNotifier {
   final FirebaseDatabase _firebaseDatabase = FirebaseDatabase.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   String _selectedFile = "";
   String get selectedFile => _selectedFile;
   File? file;
@@ -39,25 +41,36 @@ class DocumentProvider extends ChangeNotifier {
 
   refreshLoading(bool value){
     _isLoading = value;
+    notifyListeners();
   }
-  sendDocumentData({required String title, required String note, required BuildContext context})async{
+  resetAll(){
+    titleController = TextEditingController();
+    noteController = TextEditingController();
+    _selectedFile = "";
+    file = null;
+
+  }
+  sendDocumentData({required BuildContext context})async{
    try{
      refreshLoading(true);
      UploadTask uploadTask = _firebaseStorage.ref().child("files").child(_selectedFile).putFile(file!);
      TaskSnapshot taskSnapshot = await uploadTask;
      String uploadFileUrl = await taskSnapshot.ref.getDownloadURL();
      await  _firebaseDatabase.ref().child("files_info").push().set({
-       "title": title,
-       "note": note,
+       "title": titleController.text,
+       "note": noteController.text,
        "fileUrl": uploadFileUrl,
        "dateAdded":DateTime.now().toString(),
        "fileName": _selectedFile,
        "fileType":_selectedFile.split(".").last
      });
+     resetAll();
      refreshLoading(false);
    } on FirebaseException catch(firebaseError){
+     refreshLoading(false);
      SnackbarHelper.showErrorMessage(context, firebaseError.message!);
    }catch(error){
+     refreshLoading(false);
      SnackbarHelper.showErrorMessage(context, error.toString());
    }
 

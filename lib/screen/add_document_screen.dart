@@ -15,19 +15,24 @@ class AddDocumentScreen extends StatefulWidget {
 }
 
 class _AddDocumentScreenState extends State<AddDocumentScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController noteController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
   final _provider = Provider.of<DocumentProvider>(context, listen: false);
     return Scaffold(
-      floatingActionButton: CustomfloatingActionButton(
-        iconData: Icons.fork_right,
-        onPress: () {
-          _provider.sendDocumentData(title: titleController.text, note: noteController.text,context: context);
-       print("dfjlkdf");
-        },
-        title: "Upload",
+      floatingActionButton: Consumer<DocumentProvider>(
+        builder: (context, provider,child) {
+        return _provider.isLoading == true ? const CircularProgressIndicator():  CustomfloatingActionButton(
+            iconData: Icons.fork_right,
+            onPress: () {
+              _provider.sendDocumentData(
+
+                  context: context);
+           print("dfjlkdf");
+            },
+            title: "Upload",
+          );
+        }
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xff1e5373),
@@ -49,32 +54,40 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
         child:
            Column(
             children: [
-              CustomTextField(
-                controller: titleController,
-                hintText: "title",
-                preFixIcon: Icons.title,
-                labelText: "Please Enter The Title",
-                obsucure: false,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return "Enter Your title";
-                  }
-                  return null;
-                },
+              Consumer<DocumentProvider>(
+                builder: (context,provider, child) {
+                  return CustomTextField(
+                    controller: provider.titleController,
+                    hintText: "title",
+                    preFixIcon: Icons.title,
+                    labelText: "Please Enter The Title",
+                    obsucure: false,
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Enter Your title";
+                      }
+                      return null;
+                    },
+                  );
+                }
               ),
               SizedBoxHelpper.sizedBox20,
-              CustomTextField(
-                controller: noteController,
-                hintText: "note",
-                preFixIcon: Icons.note,
-                labelText: "Please Enter The Note",
-                obsucure: false,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return "Enter Your note";
-                  }
-                  return null;
-                },
+              Consumer<DocumentProvider>(
+                builder: (context, provider,child) {
+                  return CustomTextField(
+                    controller: provider.noteController,
+                    hintText: "note",
+                    preFixIcon: Icons.note,
+                    labelText: "Please Enter The Note",
+                    obsucure: false,
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return "Enter Your note";
+                      }
+                      return null;
+                    },
+                  );
+                }
               ),
               SizedBoxHelpper.sizedBox20,
               InkWell(
@@ -116,7 +129,6 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               )
             ],
           ),
-
       ),
     );
   }
